@@ -1,0 +1,24 @@
+DROP DATABASE IF EXISTS employeelog_db;
+CREATE DATABASE employeelog_db;
+
+\c employeelog_db;
+
+CREATE TABLE IF NOT EXISTS department (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS role (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  salary NUMERIC(10, 2) NOT NULL,
+  department_id INT NOT NULL REFERENCES department(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS employee (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  role_id INT NOT NULL REFERENCES role(id) ON DELETE CASCADE,
+  manager_id INT REFERENCES employee(id) ON DELETE SET NULL
+);
